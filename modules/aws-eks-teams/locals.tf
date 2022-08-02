@@ -9,4 +9,7 @@ locals {
     try(fileset(path.root, "${team_data.manifests_dir}/*"), [])
   ])
 
+  team_quotas_map = { for team_name, team_data in var.application_teams : team_name => team_data.quota if try(team_data.quota, {}) != {} }
+
 }
+

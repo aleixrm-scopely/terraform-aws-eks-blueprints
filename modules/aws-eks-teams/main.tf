@@ -13,7 +13,7 @@ resource "kubernetes_namespace" "team" {
 # Quotas
 # ---------------------------------------------------------------------------------------------------------------------
 resource "kubernetes_resource_quota" "this" {
-  for_each = var.application_teams
+  for_each = local.team_quotas_map
 
   metadata {
     name      = "quotas"
@@ -21,7 +21,7 @@ resource "kubernetes_resource_quota" "this" {
   }
 
   spec {
-    hard = try(each.value.quota, {})
+    hard = try(each.value, {})
   }
 }
 
